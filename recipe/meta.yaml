@@ -7,20 +7,20 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
     sha256: 8c106ecc1547f892b488c560a27acd6787e216cb77bf7659a3d4e8271a1d4fb7
   - url: https://raw.githubusercontent.com/facebookresearch/CrypTen/main/requirements.txt
     sha256: 14569c02e2bb5233d9d75a13646a7e9eaee0a1bcc8e7ffe4044ad9a3511d8eca
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python {{ python_min }}
     - setuptools
     - pytest-runner  # https://github.com/facebookresearch/CrypTen/issues/351
   run:
@@ -29,7 +29,7 @@ requirements:
     - omegaconf >=2.0.6
     - onnx >=1.7.0
     - pandas >=1.2.2
-    - python >=3.6
+    - python >={{ python_min }}
     - pyyaml >=5.3.1
     - scipy >=1.6.0
     - scikit-learn
@@ -38,6 +38,8 @@ requirements:
     - torchvision >=0.9.1
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - crypten
 
